@@ -4,6 +4,7 @@ from pygame import mixer
 
 # initializing pygame
 pygame.init()
+
 # creating window
 screen = pygame.display.set_mode((1000, 667))
 
@@ -32,7 +33,7 @@ santaX_change = 0
 giftImg = []
 giftX = []
 giftY = []
-giftY_change = 7
+giftY_change = 10
 giftType = []
 for i in range(numOfGifts):
     if i < 17:
@@ -103,8 +104,10 @@ over_font = pygame.font.Font('freesansbold.ttf', 64)
 
 leftPressed = False
 rightPressed = False
-
+clock = pygame.time.Clock()
 while running:
+
+    screen.blit(background, (0, 0))
     #check if gifts are going out of screen
     for i in range(numOfGifts):
         if giftY[i] >= 630:
@@ -132,17 +135,16 @@ while running:
                     gameOver = False
         pygame.display.update()
         continue
-    screen.blit(background, (0, 0))
     #processing the key presses
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                santaX_change = -5
+                santaX_change = -8
                 leftPressed = True
             if event.key == pygame.K_RIGHT:
-                santaX_change = 5
+                santaX_change = 8
                 rightPressed = True
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
@@ -152,9 +154,10 @@ while running:
         if not (leftPressed) and not (rightPressed):
             santaX_change = 0
         if not (leftPressed) and rightPressed:
-            santaX_change = 5
+            santaX_change = 8
         if leftPressed and not (rightPressed):
-            santaX_change = -5
+            santaX_change = -8
+
     santaX += santaX_change
     if santaX >= 890:
         santaX = 890
@@ -164,7 +167,10 @@ while running:
         giftY[i] += giftY_change
         displayGift(i, giftX[i], giftY[i])
     showScore(40, 60)
+
     displaySanta(santaX, santaY)
     for i in range(numOfGifts):
         collision(i)
     pygame.display.update()
+    #setting frames per second
+    clock.tick(60)
