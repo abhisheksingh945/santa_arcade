@@ -1,3 +1,2 @@
 # santa_arcade
-A game made using pygame
-After making this game i learned the basics of pygame
+A simole game made using pygame module of python
